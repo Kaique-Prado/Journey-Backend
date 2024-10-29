@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS users(
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NULL,
     trip_id UUID,
-    FOREIGN KEY(trip_id) REFERENCES trips(id) ON DELETE CASCADE
+    FOREIGN KEY(trip_id) REFERENCES trips(id)
 );

@@ -25,7 +25,7 @@ public class UserModel {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "trip_id", nullable = false)
     private TripModel tripId;
 
