@@ -15,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -28,5 +29,4 @@ public class UserModel {
     @ManyToOne
     @JoinColumn(name = "trip_id", nullable = false)
     private TripModel tripId;
-
 }

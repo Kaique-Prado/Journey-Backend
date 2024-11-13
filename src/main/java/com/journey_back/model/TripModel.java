@@ -32,13 +32,12 @@ public class TripModel {
     private Boolean isConfirmed;
     @Column(name = "owner_name", nullable = false)
     private String ownerName;
-    @Column(name = "owner_email", nullable = false)
-    private String ownerEmail;
+    @Column(name = "user_id")
+    private UUID userId;
 
     public TripModel(TripRequest data){
         this.destination = data.destination();
         this.isConfirmed = false;
-        this.ownerEmail = data.owner_email();
         this.ownerName = data.owner_name();
         this.startsAt = LocalDateTime.parse(data.starts_at(), DateTimeFormatter.ISO_DATE_TIME);
         this.endsAt = LocalDateTime.parse(data.ends_at(), DateTimeFormatter.ISO_DATE_TIME);

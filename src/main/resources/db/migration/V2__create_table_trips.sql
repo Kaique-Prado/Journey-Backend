@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS trips(
     ends_at TIMESTAMP NOT NULL,
     is_confirmed BOOLEAN NOT NULL,
     owner_name VARCHAR(255) NOT NULL,
-    owner_email VARCHAR(255) NOT NULL
+    owner_email VARCHAR(255) NOT NULL,
+    user_id UUID,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
 );

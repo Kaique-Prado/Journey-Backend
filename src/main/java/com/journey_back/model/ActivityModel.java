@@ -17,11 +17,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActivityModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(name = "occurs_at", nullable = false)
     private LocalDateTime occursAt;
 
