@@ -1,6 +1,5 @@
 package com.journey_back.controller;
 
-
 import com.journey_back.model.UserModel;
 import com.journey_back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @CrossOrigin("*")
 @RestController
@@ -38,15 +36,14 @@ public class UserController {
     }
 
     // Deletar Usuario
-    @DeleteMapping("{id}")
-    public ResponseEntity deleteUser(UUID id) {
-        boolean exists = userService.deleteUser(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUser(@PathVariable Integer id) {
+        var exists = userService.deleteUser(id);
         if (!exists) {
             throw new RuntimeException("Usuário não encontrado");
         } else {
             return ResponseEntity.status(204).build();
         }
     }
-
 
 }

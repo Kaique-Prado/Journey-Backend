@@ -1,6 +1,7 @@
 package com.journey_back.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 @Entity
 @Table(name = "activities")
@@ -19,22 +19,23 @@ import java.util.UUID;
 public class ActivityModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
+    @NotBlank(message = "O titulo nao pode ser nulo")
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "occurs_at", nullable = false)
-    private LocalDateTime occursAt;
+    @NotBlank(message = "A data nao pode ser nula")
+    @Column(name = "date", nullable = false)
+    private LocalDateTime date;
 
-    @ManyToOne
-    @JoinColumn(name = "trip_id", nullable = false)
-    private TripModel tripId;
+    @Column(name = "trip_id")
+    private Integer tripId;
 
-    public ActivityModel(String title, String occursAt, TripModel trip){
+    public ActivityModel(String title, String occursAt, Integer tripId){
         this.title = title;
-        this.occursAt = LocalDateTime.parse(occursAt, DateTimeFormatter.ISO_DATE_TIME);
-        this.tripId = trip;
+        this.date = LocalDateTime.parse(occursAt, DateTimeFormatter.ISO_DATE_TIME);
+        this.tripId = tripId;
     }
 }

@@ -1,6 +1,6 @@
 package com.journey_back.controller;
 
-
+import com.journey_back.infra.exception.ValidationError;
 import com.journey_back.model.LinkModel;
 import com.journey_back.request.LinkRequest;
 import com.journey_back.service.LinksService;
@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @CrossOrigin("*")
 @RestController
@@ -32,28 +31,26 @@ public class LinkController {
     }
 
     // Cadastrar link
-    @PostMapping("{id}")
+    @PostMapping
     public ResponseEntity<LinkModel> registerLink(@RequestBody @Validated LinkModel linkModel) {
         return ResponseEntity.status(201).body(linksService.registerLink(linkModel));
     }
 
     // Atualizar link
-    @PutMapping("{id}")
-    public ResponseEntity<LinkModel> updateLink(@RequestBody @Validated UUID id, LinkRequest linkRequest) {
+    @PutMapping("/{id}")
+    public ResponseEntity<LinkModel> updateLink(@RequestBody @Validated LinkRequest linkRequest, @PathVariable Integer id) {
         return ResponseEntity.status(201).body(linksService.updateLink(id, linkRequest));
     }
 
     // Deletar Link
-    @DeleteMapping("{id}")
-    public ResponseEntity deleteLink(@RequestBody UUID id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteLink(@PathVariable Integer id) {
         var exists = linksService.deleteLink(id);
-
         if (!exists) {
-            throw new RuntimeException("Link não encontrado");
+            throw new ValidationError("Link não encontrado");
         } else {
             return ResponseEntity.status(204).build();
         }
     }
-
 
 }

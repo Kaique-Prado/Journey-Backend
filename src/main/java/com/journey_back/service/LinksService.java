@@ -1,6 +1,6 @@
 package com.journey_back.service;
 
-
+import com.journey_back.infra.exception.ValidationError;
 import com.journey_back.model.LinkModel;
 import com.journey_back.repository.LinkRepository;
 import com.journey_back.request.LinkRequest;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class LinksService {
@@ -36,7 +35,7 @@ public class LinksService {
     }
 
     // Atualizar Links
-    public LinkModel updateLink(UUID id, LinkRequest linkRequest) {
+    public LinkModel updateLink(Integer id, LinkRequest linkRequest) {
        var link = linkRepository.findById(id);
 
        if (link.isPresent()) {
@@ -44,15 +43,15 @@ public class LinksService {
            linkBefore.setTitle(linkRequest.title());
            linkBefore.setUrl(linkRequest.url());
            LinkModel newLink = linkBefore;
-           this.linkRepository.save(newLink);
+           linkRepository.save(newLink);
            return newLink;
        } else {
-           throw new RuntimeException("Link não cadastrado");
+           throw new ValidationError("Link nao cadastrado");
        }
     }
 
     // Deletar Links
-    public boolean deleteLink(UUID id) {
+    public boolean deleteLink(Integer id) {
         var link = this.linkRepository.findById(id);
 
         if (link.isPresent()) {

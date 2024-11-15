@@ -1,5 +1,6 @@
 package com.journey_back.service;
 
+import com.journey_back.infra.exception.ValidationError;
 import com.journey_back.model.ActivityModel;
 import com.journey_back.repository.ActivityRepository;
 import com.journey_back.request.ActivityRequest;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ActivitiesService {
@@ -36,23 +36,23 @@ public class ActivitiesService {
     }
 
     // Atualizar atividades
-    public ActivityModel updateActivity(UUID id, ActivityRequest activityRequest) {
+    public ActivityModel updateActivity(Integer id, ActivityRequest activityRequest) {
         var activity = activityRepository.findById(id);
 
         if (activity.isPresent()) {
             ActivityModel activityBefore = activity.get();
             activityBefore.setTitle(activityRequest.title());
-            activityBefore.setOccursAt(LocalDateTime.parse(activityRequest.occurs_at()));
+            activityBefore.setDate(activityRequest.date());
             ActivityModel newActivity = activityBefore;
-            this.activityRepository.save(newActivity);
+            activityRepository.save(newActivity);
             return newActivity;
         } else {
-            throw new RuntimeException("Atividade não encontrada");
+            throw new ValidationError("Atividade nao encontrada");
         }
     }
 
     // Deletar atividades
-    public boolean deleteActivity(UUID id) {
+    public boolean deleteActivity(Integer id) {
         var activity = this.activityRepository.findById(id);
 
         if (activity.isPresent()) {

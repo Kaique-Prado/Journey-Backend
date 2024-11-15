@@ -1,6 +1,6 @@
 package com.journey_back.service;
 
-
+import com.journey_back.infra.exception.ValidationError;
 import com.journey_back.model.UserModel;
 import com.journey_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -36,17 +35,19 @@ public class UserService {
         if (!userRepository.existsByEmail(user.getEmail())) {
             String encoder = passwordEncoder.encode(user.getPassword());
             user.setPassword(encoder);
-            UserModel newUser = userRepository.save(user);
+            UserModel newUser = user;
+            userRepository.save(newUser);
             return newUser;
         } else {
-            throw new RuntimeException("email inserido já cadastrado");
+            throw new ValidationError("email inserido ja cadastrado");
         }
     }
 
     // Deletar Usuario
-    public boolean deleteUser(UUID id) {
+    public boolean deleteUser(Integer id) {
         var user = userRepository.findById(id);
-        if(user.isPresent()) {
+        Integer idUserFind = user.get().getId();
+        if(idUserFind != null) {
             userRepository.deleteById(id);
             return true;
         } else {

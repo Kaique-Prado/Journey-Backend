@@ -1,5 +1,6 @@
 package com.journey_back.service;
 
+import com.journey_back.infra.exception.ValidationError;
 import com.journey_back.model.TripModel;
 import com.journey_back.repository.TripRepository;
 import com.journey_back.request.TripRequest;
@@ -10,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class TripService {
@@ -30,13 +30,13 @@ public class TripService {
     }
 
     // Viagem especifica
-    public TripModel getTripDetails(UUID id) {
+    public TripModel getTripDetails(Integer id) {
         Optional<TripModel> trip = this.tripRepository.findById(id);
         if(trip.isPresent()) {
             TripModel tripDetail = trip.get();
             return tripDetail;
         } else {
-            throw new RuntimeException("Viagem não econtrada");
+            throw new ValidationError("Esta viagem nao existe");
         }
     }
 
@@ -48,7 +48,7 @@ public class TripService {
     }
 
     //Atualizar viagem
-    public TripModel updateTrip(UUID id, TripRequest request) {
+    public TripModel updateTrip(Integer id, TripRequest request) {
         Optional<TripModel> trip = this.tripRepository.findById(id);
 
         if (trip.isPresent()) {
@@ -61,20 +61,19 @@ public class TripService {
 
             return rawTrip;
         } else {
-            throw new RuntimeException("Viagem não econtrada");
+            throw new ValidationError("Viagem nao econtrada");
         }
     }
 
     // Deletar viagem
-    public TripModel deleteTrip(UUID id)  {
-        Optional<TripModel> trip = this.tripRepository.findById(id);
+    public boolean deleteTrip(Integer id)  {
+        var trip = this.tripRepository.findById(id);
 
         if (trip.isPresent()) {
-            TripModel deletedTrip = trip.get();
             tripRepository.deleteById(id);
-            return deletedTrip;
+            return true;
         } else {
-            throw new RuntimeException("Viagem não econtrada");
+            throw new ValidationError("Viagem nao econtrada");
         }
     }
 }
