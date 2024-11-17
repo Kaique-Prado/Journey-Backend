@@ -4,6 +4,7 @@ import com.journey_back.infra.exception.ValidationError;
 import com.journey_back.model.LinkModel;
 import com.journey_back.request.LinkRequest;
 import com.journey_back.service.LinksService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -32,13 +33,13 @@ public class LinkController {
 
     // Cadastrar link
     @PostMapping
-    public ResponseEntity<LinkModel> registerLink(@RequestBody @Validated LinkModel linkModel) {
+    public ResponseEntity<LinkModel> registerLink(@RequestBody @Valid LinkModel linkModel) {
         return ResponseEntity.status(201).body(linksService.registerLink(linkModel));
     }
 
     // Atualizar link
     @PutMapping("/{id}")
-    public ResponseEntity<LinkModel> updateLink(@RequestBody @Validated LinkRequest linkRequest, @PathVariable Integer id) {
+    public ResponseEntity<LinkModel> updateLink(@RequestBody @Valid LinkRequest linkRequest, @PathVariable Integer id) {
         return ResponseEntity.status(201).body(linksService.updateLink(id, linkRequest));
     }
 

@@ -2,6 +2,7 @@ package com.journey_back.controller;
 
 import com.journey_back.model.UserModel;
 import com.journey_back.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +32,7 @@ public class UserController {
 
     // Cadastrar Usuario
     @PostMapping
-    public ResponseEntity<UserModel> registerUser(@RequestBody @Validated UserModel userModel) {
+    public ResponseEntity<UserModel> registerUser(@RequestBody @Valid UserModel userModel) {
         return ResponseEntity.status(201).body(userService.postUser(userModel));
     }
 

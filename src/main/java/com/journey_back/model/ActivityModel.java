@@ -26,7 +26,6 @@ public class ActivityModel {
     @Column(nullable = false)
     private String title;
 
-    @NotBlank(message = "A data nao pode ser nula")
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 

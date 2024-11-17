@@ -4,6 +4,7 @@ import com.journey_back.infra.exception.ValidationError;
 import com.journey_back.model.TripModel;
 import com.journey_back.request.TripRequest;
 import com.journey_back.service.TripService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +32,7 @@ public class TripController {
     }
 
     @PostMapping
-    public ResponseEntity<TripModel> registerTrip(@RequestBody @Validated TripModel tripModel) {
+    public ResponseEntity<TripModel> registerTrip(@RequestBody @Valid TripModel tripModel) {
         return ResponseEntity.status(201).body(tripService.registerTrip(tripModel));
     }
 
@@ -43,7 +44,7 @@ public class TripController {
 
     // Atualizar uma viagem
     @PutMapping("/{id}")
-    public ResponseEntity<TripModel> updateTrip(@PathVariable Integer id, @RequestBody TripRequest payload) {
+    public ResponseEntity<TripModel> updateTrip(@PathVariable Integer id, @RequestBody @Valid TripRequest payload) {
         return ResponseEntity.status(201).build();
     }
 

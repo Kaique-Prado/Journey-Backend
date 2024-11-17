@@ -5,9 +5,9 @@ import com.journey_back.infra.exception.ValidationError;
 import com.journey_back.model.ActivityModel;
 import com.journey_back.request.ActivityRequest;
 import com.journey_back.service.ActivitiesService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,13 +33,13 @@ public class ActivityController {
 
     // Cadastrar atividade
     @PostMapping
-    public ResponseEntity<ActivityModel> registerActivity(@RequestBody @Validated ActivityModel activityModel) {
+    public ResponseEntity<ActivityModel> registerActivity(@RequestBody @Valid ActivityModel activityModel) {
         return ResponseEntity.status(201).body(activitiesService.registerActivity(activityModel));
     }
 
     // Atualizar atividade
     @PutMapping("/{id}")
-    public ResponseEntity<ActivityModel> updateActivity(@PathVariable Integer id, @RequestBody ActivityRequest activityRequest) {
+    public ResponseEntity<ActivityModel> updateActivity(@PathVariable Integer id, @RequestBody @Valid ActivityRequest activityRequest) {
         return ResponseEntity.status(201).body(activitiesService.updateActivity(id, activityRequest));
     }
 
@@ -49,7 +49,7 @@ public class ActivityController {
     public ResponseEntity deleteActivity(@PathVariable Integer id) {
         var exists = activitiesService.deleteActivity(id);
         if (!exists) {
-            throw new ValidationError("Esta tividade nao existe");
+            throw new ValidationError("Esta atividade nao existe");
         } else {
             return ResponseEntity.status(204).build();
         }

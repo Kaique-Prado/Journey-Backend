@@ -26,21 +26,21 @@ public class ExceptionErrors {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity tratarErro400(MethodArgumentNotValidException ex) {
         var erros = ex.getFieldErrors();  // Lista de erros que ocorreram
-        return ResponseEntity.badRequest().body(erros.stream().map(DadosErrosValidacao::new).toList()); // CONVERTER EM DTO DE ERROS
+        return ResponseEntity.badRequest().body(erros.stream().map(DadosErrosValidacao::new).toList());
     }
 
 
     // TRATAR ERRO 500
     @ExceptionHandler(Exception.class)
     public ResponseEntity tratarErro500(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " + ex.getLocalizedMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " + ex.getMessage());
     }
 
 
     // DTO DE ERROS
     private record DadosErrosValidacao(String campo, String mensagem){
         public DadosErrosValidacao(FieldError error) {
-            this(error.getField(), error.getDefaultMessage());  // PEGAR APENAS OS CAMPOS NECESSARIOS NO LIST DE ERROS
+            this(error.getField(), error.getDefaultMessage());
         }
     }
 
