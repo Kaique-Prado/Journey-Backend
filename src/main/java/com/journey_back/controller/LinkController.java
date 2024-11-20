@@ -26,15 +26,15 @@ public class LinkController {
     }
 
     // Listar Links
-    @GetMapping
-    public ResponseEntity<List<LinkModel>> getLinks() {
-        return ResponseEntity.ok().body(linksService.getLinks());
+    @GetMapping("/{tripId}")
+    public ResponseEntity<List<LinkModel>> getLinks(@PathVariable Integer tripId) {
+        return ResponseEntity.ok().body(linksService.getLinks(tripId));
     }
 
     // Cadastrar link
     @PostMapping
-    public ResponseEntity<LinkModel> registerLink(@RequestBody @Valid LinkModel linkModel) {
-        return ResponseEntity.status(201).body(linksService.registerLink(linkModel));
+    public ResponseEntity<LinkModel> registerLink(@RequestBody @Valid LinkRequest linkRequest, @PathVariable Integer tripId) {
+        return ResponseEntity.status(201).body(linksService.registerLink(linkRequest, tripId));
     }
 
     // Atualizar link

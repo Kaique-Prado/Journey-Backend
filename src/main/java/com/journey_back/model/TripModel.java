@@ -3,6 +3,7 @@ package com.journey_back.model;
 import com.journey_back.request.TripRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,11 +30,11 @@ public class TripModel {
     @Column(nullable = false)
     private String destination;
 
-    @NotBlank(message = "A data de inicio não poder nulo")
+    @NotNull(message = "A data de inicio não poder nulo")
     @Column(name = "starts_at", nullable = false)
     private LocalDateTime startsAt;
 
-    @NotBlank(message = "A data final não poder nulo")
+    @NotNull(message = "A data final não poder nulo")
     @Column(name = "ends_at", nullable = false)
     private LocalDateTime endsAt;
 
@@ -45,13 +46,4 @@ public class TripModel {
 
     @Column(name = "user_id")
     private Integer userId;
-
-    public TripModel(TripRequest data){
-        this.destination = data.destination();
-        this.isConfirmed = false;
-        this.ownerName = data.owner_name();
-        this.startsAt = LocalDateTime.parse(data.starts_at(), DateTimeFormatter.ISO_DATE_TIME);
-        this.endsAt = LocalDateTime.parse(data.ends_at(), DateTimeFormatter.ISO_DATE_TIME);
-    }
-
 }

@@ -31,9 +31,10 @@ public class TripController {
         return ResponseEntity.ok().body(tripService.getTripList());
     }
 
+    // Cadastrar viagem
     @PostMapping
-    public ResponseEntity<TripModel> registerTrip(@RequestBody @Valid TripModel tripModel) {
-        return ResponseEntity.status(201).body(tripService.registerTrip(tripModel));
+    public ResponseEntity<TripModel> registerTrip(@RequestBody @Valid TripRequest tripRequest) {
+        return ResponseEntity.status(201).body(tripService.registerTrip(tripRequest));
     }
 
     // Detalhes de uma viagem

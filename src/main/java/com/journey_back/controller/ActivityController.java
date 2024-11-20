@@ -26,15 +26,15 @@ public class ActivityController {
     }
 
     // Listar atividades
-    @GetMapping
-    public ResponseEntity<List<ActivityModel>> getActivities() {
-        return ResponseEntity.ok().body(activitiesService.getActivities());
+    @GetMapping("/{tripId}")
+    public ResponseEntity<List<ActivityModel>> getActivities(@PathVariable Integer tripId) {
+        return ResponseEntity.ok().body(activitiesService.getActivities(tripId));
     }
 
     // Cadastrar atividade
     @PostMapping
-    public ResponseEntity<ActivityModel> registerActivity(@RequestBody @Valid ActivityModel activityModel) {
-        return ResponseEntity.status(201).body(activitiesService.registerActivity(activityModel));
+    public ResponseEntity<ActivityModel> registerActivity(@RequestBody @Valid ActivityRequest activityRequest, @PathVariable Integer tripId) {
+        return ResponseEntity.status(201).body(activitiesService.registerActivity(activityRequest, tripId));
     }
 
     // Atualizar atividade

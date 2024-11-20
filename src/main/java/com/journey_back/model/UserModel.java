@@ -39,9 +39,6 @@ public class UserModel implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "trip_id")
-    private Integer tripId;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -3,6 +3,7 @@ package com.journey_back.service;
 import com.journey_back.infra.exception.ValidationError;
 import com.journey_back.model.LinkModel;
 import com.journey_back.repository.LinkRepository;
+import com.journey_back.repository.UserRepository;
 import com.journey_back.request.LinkRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,23 +15,30 @@ public class LinksService {
 
     @Autowired
     private LinkRepository linkRepository;
+    @Autowired
+    private TripService tripService;
+    @Autowired
+    private UserRepository userRepository;
 
     // Construtor
     public LinksService(LinkRepository repository) {
         this.linkRepository = repository;
     }
 
-
     // Listar Links
-    public List<LinkModel> getLinks() {
-        List<LinkModel> list = linkRepository.findAll();
-        return list;
+    public List<LinkModel> getLinks(Integer tripId) {
+        return linkRepository.findByTripId(tripId);
     }
 
     // Inserir Links
-    public LinkModel registerLink(LinkModel linkModel) {
-        LinkModel link = linkModel;
-        linkRepository.save(linkModel);
+    public LinkModel registerLink(LinkRequest linkRequest, Integer tripId) {
+        LinkModel link = new LinkModel();
+        link.setUrl(linkRequest.url());
+        link.setTitle(linkRequest.title());
+        link.setTripId(tripId);
+
+        linkRepository.save(link);
+
         return link;
     }
 
